@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'cosimo'
+require_relative '../lib/cosimo/support/command_parser'
+
+command_aliases = {
+  's' => 'start',
+  'c' => 'console',
+  'g' => 'generate'
+}
+
+args = ARGV.map { |arg| command_aliases[arg] ? command_aliases[arg] : arg }
+
+if args.empty?
+  puts "No Args Given."
+else
+  command = Cosimo::Support::CommandParser.find_command(args[0])
+  command.run(args[1..-1])
+end
