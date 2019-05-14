@@ -21,16 +21,18 @@ module Cosimo
         arg_output = {}
 
         argument_pairs.each do |flag, value|
-          arg_output[ARGUMENT_REFERENCE[flag]] = value
+          arg_output[argument_reference[flag]] = value
         end
 
         arg_output
       end
 
-      ARGUMENT_REFERENCE = {
-        '-p' => 'port',
-        '-e' => 'environment'
-      }
+      def self.argument_reference
+        @argument_reference ||= {
+          '-p' => :port,
+          '-e' => :env
+        }
+      end
     end
   end
 end
