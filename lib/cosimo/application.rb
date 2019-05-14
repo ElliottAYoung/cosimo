@@ -23,7 +23,7 @@ module Cosimo
       $cosimo_application_info ||= {}
     end
 
-    def self.set_cosimo_application_info(options = {})
+    def self.set_cosimo_application_info(options = {})      
       $cosimo_application_info = {
         env: options[:env] || 'development',
         port: options[:port] || '3000'
