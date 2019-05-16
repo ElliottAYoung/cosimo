@@ -1,15 +1,21 @@
 require "puma"
 require "cosimo/support/argument_parser"
 require "cosimo/support/server"
+require "cosimo/application/configuration"
 
 module Cosimo
   class Application
+    def self.config
+      $cosimo_application_configuration ||= Cosimo::Application::Configuration.new
+    end
+
     def self.initialize_application(args = [])
       set_cosimo_application_info(Cosimo::Support::ArgumentParser.process(args.flatten))
+      load_configuration
     end
 
     def self.start
-      puts "Running Cosimo #{Cosimo::VERSION}"
+      puts "Running Cosimo #{Cosimo::VERSION} in #{info[:env]}"
 
       begin
         Cosimo::Support::Server.start
@@ -29,6 +35,11 @@ module Cosimo
         env: options[:env] || 'development',
         port: options[:port] || '3000'
       }
+    end
+
+    def self.load_configuration
+      require "#{Dir.pwd}/config/environments/#{info[:env]}" rescue nil
+      config.load(info[:env])
     end
   end
 end
