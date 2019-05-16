@@ -10,7 +10,7 @@ module Cosimo
         end
 
         def execute
-          binding.pry
+          Pry.start
         end
       end
     end
