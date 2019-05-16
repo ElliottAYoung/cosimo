@@ -1,6 +1,9 @@
 require "puma"
+
 require "cosimo/support/argument_parser"
 require "cosimo/support/server"
+require "cosimo/support/trigger_subscriptions"
+
 require "cosimo/application/configuration"
 
 module Cosimo
@@ -12,6 +15,7 @@ module Cosimo
     def self.initialize_application(args = [])
       set_cosimo_application_info(Cosimo::Support::ArgumentParser.process(args.flatten))
       load_configuration
+      set_trigger_subscriptions
     end
 
     def self.start
@@ -40,6 +44,12 @@ module Cosimo
     def self.load_configuration
       require "#{Dir.pwd}/config/environments/#{info[:env]}" rescue nil
       config.load(info[:env])
+    end
+
+    def self.set_trigger_subscriptions
+      Cosimo.connection.open
+
+      Cosimo::Support::TriggerSubscriptions.build
     end
   end
 end

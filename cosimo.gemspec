@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rb-readline", "~> 0.5"
   spec.add_dependency "puma", "~> 3.12"
   spec.add_dependency "activesupport", "~> 5.2"
+  spec.add_dependency "bunny", "~> 2.14"
 end
